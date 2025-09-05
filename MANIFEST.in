@@ -1,0 +1,94 @@
+# Include package metadata
+include LICENSE
+include README.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include pyproject.toml
+include setup.py
+include requirements.txt
+
+# Include configuration files
+recursive-include hagmoe/configs *.yaml *.yml
+recursive-include configs *.yaml *.yml
+
+# Include assets and resources
+recursive-include assets *
+recursive-include hagmoe/assets *
+
+# Include type hints
+include hagmoe/py.typed
+recursive-include hagmoe *.pyi
+
+# Include research materials
+recursive-include research *.pdf *.bib *.md
+recursive-include research/notebooks *.ipynb
+recursive-include research/experiments *.yaml *.json
+
+# Include example configurations and scripts
+recursive-include examples *.py *.ipynb *.yaml *.yml
+recursive-include scripts *.py *.sh
+
+# Include documentation source
+recursive-include docs *.rst *.md *.py *.txt *.yaml
+recursive-include docs/source *
+include docs/Makefile
+
+# Include test fixtures and data
+recursive-include tests/fixtures *.json *.yaml *.txt
+recursive-include tests/data *.json *.txt
+
+# Include GitHub templates and workflows
+recursive-include .github *.yml *.yaml *.md
+
+# Include deployment configurations
+recursive-include deployment *.yml *.yaml *.dockerfile
+recursive-include deployment/docker *
+recursive-include deployment/kubernetes *
+recursive-include deployment/helm *
+
+# Include benchmark configurations
+recursive-include benchmarks *.py *.yaml *.md
+recursive-include benchmarks/datasets *.md *.sh
+
+# Include development tools
+include .pre-commit-config.yaml
+include .editorconfig
+include tox.ini
+include codecov.yml
+
+# Exclude unwanted files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .pytest_cache
+global-exclude .mypy_cache
+global-exclude .coverage
+global-exclude htmlcov
+
+# Exclude data directories
+global-exclude data/raw/*
+global-exclude data/processed/*
+global-exclude data/checkpoints/*
+global-exclude data/logs/*
+
+# Exclude build artifacts
+global-exclude build/*
+global-exclude dist/*
+global-exclude *.egg-info/*
+
+# Exclude IDE files
+global-exclude .vscode/*
+global-exclude .idea/*
+global-exclude *.swp
+global-exclude *.swo
+global-exclude *~
+
+# Exclude temporary files
+global-exclude tmp/*
+global-exclude temp/*
+global-exclude *.tmp

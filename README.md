@@ -490,7 +490,7 @@ National Institute of Technology Agartala
 
 ## License
 
-Open source under the [Apahe License](LICENSE).
+Open source under the [Apache 2.0 License](LICENSE).
 
 ---
 

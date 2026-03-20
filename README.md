@@ -1,7 +1,7 @@
 # HAG-MoE: Hierarchical Attention-Gated Mixture of Experts
 
 [![arXiv](https://img.shields.io/badge/arXiv-preprint-b31b1b?style=flat-square)](https://arxiv.org/abs/xxxx.xxxxx)
-[![License](https://img.shields.io/badge/License-MIT-purple?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache-purple?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-orange?style=flat-square)](https://pytorch.org)
 [![Status](https://img.shields.io/badge/Status-Research_Preview-yellow?style=flat-square)]()
@@ -490,7 +490,7 @@ National Institute of Technology Agartala
 
 ## License
 
-Open source under the [MIT License](LICENSE).
+Open source under the [Apahe License](LICENSE).
 
 ---
 

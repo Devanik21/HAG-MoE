@@ -28,7 +28,7 @@ We propose **HAG-MoE (Hierarchical Attention-Gated MoE)**, which addresses all t
 5. [Theoretical Properties](#5-theoretical-properties)
 6. [Training Objective](#6-training-objective)
 7. [Implementation Details](#7-implementation-details)
-8. [Repository Structure](#8-repository-structure)
+8. [Repository Structure](#8-repository-structure (Proposed))
 9. [Ablation Roadmap](#9-ablation-roadmap)
 10. [References](#10-references)
 
@@ -367,7 +367,7 @@ Dynamic $K_i$ creates variable expert dispatch per token. Two strategies:
 
 ---
 
-## 8. Repository Structure
+## 8. Repository Structure (Proposed)
 
 ```
 hag-moe/

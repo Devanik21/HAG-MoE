@@ -21,24 +21,39 @@ class ExpertGroup(nn.Module):
 
     def forward(self, x: torch.Tensor, expert_idx: torch.Tensor, scores: torch.Tensor) -> torch.Tensor:
         batch_size, seq_len, k_max = expert_idx.shape
+        d_model = x.shape[-1]
+
         out = torch.zeros_like(x)
 
-        for k in range(k_max):
-            indices_k = expert_idx[:, :, k]
-            scores_k = scores[:, :, k]
-            valid_mask = indices_k >= 0
+        # Flatten all tokens across batch and sequence length
+        x_flat = x.view(-1, d_model)  # (B*S, d_model)
+        idx_flat = expert_idx.view(-1, k_max)  # (B*S, K_max)
+        scores_flat = scores.view(-1, k_max)  # (B*S, K_max)
+        out_flat = out.view(-1, d_model)  # (B*S, d_model)
 
-            if not valid_mask.any():
+        for e in range(self.num_experts):
+            # Find which tokens (and at which k slot) go to this expert
+            mask = (idx_flat == e)  # (B*S, K_max)
+
+            # Reduce along k_max dimension to see if a token goes to this expert at all
+            # Since a token shouldn't be assigned to the same expert twice in top-k
+            token_mask = mask.any(dim=-1)  # (B*S)
+
+            if not token_mask.any():
                 continue
 
-            for e in range(self.num_experts):
-                e_mask = valid_mask & (indices_k == e)
-                if not e_mask.any():
-                    continue
+            # Select tokens for this expert
+            x_e = x_flat[token_mask]  # (num_tokens_for_e, d_model)
 
-                x_e = x[e_mask]
-                out_e = self.experts[e](x_e)
-                s_e = scores_k[e_mask].unsqueeze(-1)
-                out[e_mask] += out_e * s_e
+            # Compute expert output
+            out_e = self.experts[e](x_e)  # (num_tokens_for_e, d_model)
 
-        return out
+            # Extract the corresponding scores.
+            # We can use mask to extract the specific score for this expert for each token
+            # mask[token_mask] gives shape (num_tokens_for_e, K_max) with exactly one True per row
+            expert_scores = scores_flat[token_mask][mask[token_mask]].unsqueeze(-1)  # (num_tokens_for_e, 1)
+
+            # Add weighted output back to flattened output tensor
+            out_flat[token_mask] += out_e * expert_scores
+
+        return out_flat.view(batch_size, seq_len, d_model)

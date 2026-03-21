@@ -15,7 +15,10 @@ class AttentionProbe:
         features = np.zeros((num_heads, 4))
         for h in range(num_heads):
             w = attn_weights[h].detach().cpu().numpy()
-            local_attn = np.mean([w[i, max(0, i-1)] for i in range(1, seq_len)])
+            if seq_len > 1:
+                local_attn = np.mean([w[i, max(0, i-1)] for i in range(1, seq_len)])
+            else:
+                local_attn = 0.0
             features[h, 0] = local_attn
             features[h, 1] = np.mean(w[:, 0])
             w_safe = np.maximum(w, 1e-8)

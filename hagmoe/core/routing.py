@@ -15,7 +15,7 @@ class EntropyGate(nn.Module):
     def forward(self, attn_c: torch.Tensor, training: bool = True):
         seq_len = attn_c.size(-1)
         entropy = -(attn_c * torch.log(attn_c.clamp(min=1e-8))).sum(dim=-1)
-        norm_entropy = entropy / math.log(seq_len)
+        norm_entropy = entropy / math.log(seq_len) if seq_len > 1 else torch.zeros_like(entropy)
 
         if training:
             batch_mean = norm_entropy.detach().mean()

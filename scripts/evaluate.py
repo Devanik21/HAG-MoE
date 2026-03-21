@@ -38,8 +38,15 @@ def evaluate(model, dataloader, device):
             for aux_data in all_aux_data:
                 all_k_i.append(aux_data['k_i'].cpu().view(-1))
 
+    if total_tokens == 0:
+        return {'loss': 0.0, 'perplexity': float('inf'), 'k_i_stats': {}}
+
     avg_loss = total_loss / total_tokens
     perplexity = math.exp(avg_loss)
+
+    if not all_k_i:
+        return {'loss': avg_loss, 'perplexity': perplexity, 'k_i_stats': {}}
+
     k_i_tensor = torch.cat(all_k_i)
     k_i_stats = compute_cardinality_stats(k_i_tensor)
     return {'loss': avg_loss, 'perplexity': perplexity, 'k_i_stats': k_i_stats}

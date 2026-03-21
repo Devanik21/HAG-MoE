@@ -12,7 +12,7 @@ class LambdaScheduler:
     def get_value(self) -> float:
         if self.current_step >= self.warmup_steps:
             return self.target_value
-        return self.target_value * (self.current_step / self.warmup_steps)
+        return self.target_value * (self.current_step / max(1, self.warmup_steps))
 
 class HAGMoEScheduler:
     def __init__(self, lambda_lb_g_target: float = 0.1, lambda_lb_e_target: float = 0.1,

@@ -19,10 +19,15 @@ def plot_expert_routing_heatmap(routing_counts: torch.Tensor, layer_idx: int = N
     plt.close()
 
 def plot_layerwise_group_routing(all_layers_g_counts: List[torch.Tensor], save_path: str = None):
+    if not all_layers_g_counts:
+        return
     num_layers = len(all_layers_g_counts)
     num_groups = all_layers_g_counts[0].shape[0]
     data = torch.stack(all_layers_g_counts).detach().cpu().numpy()
-    data_norm = data / data.sum(axis=1, keepdims=True)
+
+    row_sums = data.sum(axis=1, keepdims=True)
+    row_sums[row_sums == 0] = 1 # Avoid division by zero
+    data_norm = data / row_sums
 
     plt.figure(figsize=(10, 8))
     bottom = np.zeros(num_layers)

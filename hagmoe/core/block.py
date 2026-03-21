@@ -65,8 +65,29 @@ class HAGMoEBlock(nn.Module):
             g_mask = (g_i_star == g)
             if not g_mask.any():
                 continue
-            group_out = self.expert_groups[g](x_prime_norm, e_idx, s_val)
-            o_i += group_out * g_mask.unsqueeze(-1)
+
+            # Select tokens and corresponding data for the current group
+            group_x = x_prime_norm[g_mask]
+            group_e_idx = e_idx[g_mask]
+            group_s_val = s_val[g_mask]
+
+            if group_x.numel() == 0:
+                continue
+
+            # Convert global expert indices to local indices for the group
+            local_e_idx = group_e_idx - g * self.experts_per_group
+            local_e_idx[group_e_idx < 0] = -1  # Preserve padding indices
+
+            # The expert group expects a batch dimension, so we add one
+            # and then remove it from the output.
+            group_out = self.expert_groups[g](
+                group_x.unsqueeze(0),
+                local_e_idx.unsqueeze(0),
+                group_s_val.unsqueeze(0)
+            )
+
+            # Place the output back into the correct positions
+            o_i[g_mask] = group_out.squeeze(0)
 
         o_i_mod, gamma = self.feedback(o_i, e_idx, s_val)
         out = residual + self.dropout(o_i_mod)

@@ -30,7 +30,8 @@ def plot_cardinality_distribution(k_i_values: torch.Tensor, save_path: str = Non
     plt.xlabel('Number of Active Experts ($K_i$)')
     plt.ylabel('Percentage of Tokens (%)')
     plt.xticks(k_vals)
-    plt.ylim(0, max(p_vals) * 1.15)
+    if p_vals:
+        plt.ylim(0, max(p_vals) * 1.15)
     if save_path: plt.savefig(save_path, bbox_inches='tight')
     else: plt.show()
     plt.close()

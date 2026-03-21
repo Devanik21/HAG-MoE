@@ -25,6 +25,9 @@ def analyze_entropy_k_correlation(model, dataloader, device='cuda'):
                 all_entropies.append(aux_data['norm_entropy'].cpu().view(-1))
                 all_k_i.append(aux_data['k_i'].cpu().view(-1))
 
+    if not all_entropies:
+        return 0.0, torch.tensor([]), torch.tensor([])
+
     entropies = torch.cat(all_entropies)
     k_i = torch.cat(all_k_i).float()
     correlation = torch.corrcoef(torch.stack([entropies, k_i]))[0, 1].item()

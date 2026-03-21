@@ -1,0 +1,26 @@
+# Medium Configuration (24L / 1024d / 64 experts)
+vocab_size: 50257
+max_seq_len: 2048
+d_model: 1024
+num_layers: 24
+num_heads: 16
+hidden_dim: 4096
+
+num_groups: 8
+experts_per_group: 8
+k_min: 1
+k_max: 6
+alpha: 10.0
+d_r: 128
+dropout: 0.1
+
+batch_size: 32
+learning_rate: 1.5e-4
+weight_decay: 0.01
+warmup_steps: 2000
+max_steps: 200000
+
+lambda_lb_g: 0.1
+lambda_lb_e: 0.1
+lambda_div: 0.01
+lambda_gamma: 0.01

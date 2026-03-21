@@ -1,0 +1,26 @@
+# Small Configuration (12L / 512d / 16 experts)
+vocab_size: 50257
+max_seq_len: 1024
+d_model: 512
+num_layers: 12
+num_heads: 8
+hidden_dim: 2048
+
+num_groups: 4
+experts_per_group: 4
+k_min: 1
+k_max: 4
+alpha: 10.0
+d_r: 64
+dropout: 0.1
+
+batch_size: 16
+learning_rate: 3e-4
+weight_decay: 0.01
+warmup_steps: 1000
+max_steps: 100000
+
+lambda_lb_g: 0.1
+lambda_lb_e: 0.1
+lambda_div: 0.01
+lambda_gamma: 0.01

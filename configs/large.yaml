@@ -1,0 +1,26 @@
+# Large Configuration (36L / 2048d / 256 experts)
+vocab_size: 50257
+max_seq_len: 4096
+d_model: 2048
+num_layers: 36
+num_heads: 32
+hidden_dim: 8192
+
+num_groups: 16
+experts_per_group: 16
+k_min: 1
+k_max: 8
+alpha: 10.0
+d_r: 256
+dropout: 0.1
+
+batch_size: 64
+learning_rate: 1e-4
+weight_decay: 0.01
+warmup_steps: 4000
+max_steps: 300000
+
+lambda_lb_g: 0.1
+lambda_lb_e: 0.1
+lambda_div: 0.01
+lambda_gamma: 0.01
